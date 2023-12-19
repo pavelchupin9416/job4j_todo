@@ -1,0 +1,14 @@
+<div th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/index">Job4jToDo</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav me-auto ">
+                    <a class="nav-item nav-link active" href="/index">Главная</a>
+                    <a class="nav-item nav-link active" th:href="@{/tasks}">Задачи</a>
+                    <a class="nav-item nav-link active" th:href="@{/tasks/done}">Выполненные</a>
+                    <a class="nav-item nav-link active" th:href="@{/tasks/new}">Новые</a>
+            </div>
+        </div>
+    </nav>
+</div>
