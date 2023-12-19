@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class HqlTaskRepository implements TaskRepository{
+public class HqlTaskRepository implements TaskRepository {
 
     private final SessionFactory sf;
 
@@ -82,7 +82,7 @@ public class HqlTaskRepository implements TaskRepository{
         Optional<Task> result = Optional.empty();
         try {
             session.beginTransaction();
-            result =Optional.of(session.get(Task.class, id));
+            result = Optional.of(session.get(Task.class, id));
             session.getTransaction().commit();
         }  catch (Exception e) {
             session.getTransaction().rollback();

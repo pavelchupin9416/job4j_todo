@@ -17,6 +17,6 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    private LocalDateTime created= LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now();
     private boolean done;
 }
