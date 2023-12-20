@@ -64,18 +64,12 @@ public class TaskController {
 
     @PostMapping("/setdone")
     public String setDone(@ModelAttribute Task task, Model model) {
-        try {
-            task.setDone(true);
-            var isUpdated = taskService.update(task);
+            var isUpdated = taskService.execute(task);
             if (!isUpdated) {
                 model.addAttribute("message", "Задача с указанным идентификатором не найдена");
                 return "errors/404";
             }
             return "redirect:/tasks";
-        } catch (Exception exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "errors/404";
-        }
     }
 
     @GetMapping("/update/{id}")
@@ -91,17 +85,12 @@ public class TaskController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Task task, Model model) {
-        try {
             var isUpdated = taskService.update(task);
             if (!isUpdated) {
                 model.addAttribute("message", "Задача с указанным идентификатором не найдена");
                 return "errors/404";
             }
             return "redirect:/tasks";
-        } catch (Exception exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "errors/404";
-        }
     }
 
     @GetMapping("/delete/{id}")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +23,10 @@ public class HqlTaskRepository implements TaskRepository {
     public Task save(Task task) {
         Session session = sf.openSession();
         try {
-        session.beginTransaction();
-        session.save(task);
-        session.getTransaction().commit();
-        }  catch (Exception e) {
+            session.beginTransaction();
+            session.save(task);
+            session.getTransaction().commit();
+        } catch (Exception e) {
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -45,12 +46,12 @@ public class HqlTaskRepository implements TaskRepository {
                     .executeUpdate();
             session.getTransaction().commit();
             result = true;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
-        return  result;
+        return result;
     }
 
     @Override
@@ -60,15 +61,36 @@ public class HqlTaskRepository implements TaskRepository {
         try {
             session.beginTransaction();
             session.createQuery(
-                            "UPDATE Task SET description = :fDes, created = :fCreat, done = :fDone WHERE id = :fId")
+                            "UPDATE Task SET description = :fDes, title = :fT, done = :fDone WHERE id = :fId")
                     .setParameter("fDes", task.getDescription())
-                    .setParameter("fCreat", task.getCreated())
+                    .setParameter("fT", task.getTitle())
                     .setParameter("fDone", task.isDone())
                     .setParameter("fId", task.getId())
                     .executeUpdate();
             session.getTransaction().commit();
             result = true;
-        }  catch (Exception e) {
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+
+    @Override
+    public boolean execute(Task task) {
+        Session session = sf.openSession();
+        boolean result = false;
+        try {
+            session.beginTransaction();
+            session.createQuery(
+                            "UPDATE Task SET done = :fDone WHERE id = :fId")
+                    .setParameter("fDone", true)
+                    .setParameter("fId", task.getId())
+                    .executeUpdate();
+            session.getTransaction().commit();
+            result = true;
+        } catch (Exception e) {
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -84,38 +106,24 @@ public class HqlTaskRepository implements TaskRepository {
             session.beginTransaction();
             result = Optional.of(session.get(Task.class, id));
             session.getTransaction().commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
         return result;
-
-        /*Query<Task> query = null;
-        try {
-            session.beginTransaction();
-            query = session.createQuery(
-                    "from Task as i where i.id = :fId", Task.class);
-            query.setParameter("fId", id);
-            session.getTransaction().commit();
-        }  catch (Exception e) {
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return query.uniqueResultOptional();*/
     }
 
     @Override
     public Collection<Task> findAll() {
         Session session = sf.openSession();
-        List<Task> query = null;
+        List<Task> query = Collections.emptyList();
         try {
             session.beginTransaction();
             query = session.createQuery(
                     "from Task", Task.class).list();
             session.getTransaction().commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -126,21 +134,20 @@ public class HqlTaskRepository implements TaskRepository {
     @Override
     public Collection<Task> findNewOrDone(boolean done) {
         Session session = sf.openSession();
-        List<Task> query = null;
+        List<Task> query = Collections.emptyList();
         try {
             session.beginTransaction();
             query = session.createQuery(
-                    "from Task where done = :fDone", Task.class)
+                            "from Task where done = :fDone", Task.class)
                     .setParameter("fDone", done).list();
             session.getTransaction().commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
         return query;
     }
-
 
 
 }

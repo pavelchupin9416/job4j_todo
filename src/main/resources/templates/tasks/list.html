@@ -21,7 +21,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Описание</th>
+                    <th scope="col">Название</th>
                     <th scope="col">Дата создания</th>
                     <th scope="col">Выполнена</th>
                 </tr>
@@ -29,7 +29,7 @@
                 <tbody>
                 <tr th:each="task: ${tasks}">
                     <td><a th:text="${task.id}" th:href="@{/tasks/{tId}(tId=${task.id})}"></a></td>
-                    <td th:text="${task.description}" />
+                    <td th:text="${task.title}" />
                     <td th:text="${task.created}"/>
                     <td th:switch="${task.done}">
                         <p th:case ="true">Выполнено</p>

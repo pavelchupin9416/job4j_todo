@@ -18,6 +18,10 @@
         <form class="mt-3" th:action="@{/tasks/setdone}" method="post" th:object="${task}" enctype="multipart/form-data">
             <input type="hidden" name="id" th:field="*{id}">
             <div class="mb-3">
+                <label for="title" class="form-label"><b>Название</b></label>
+                <input type="text" class="form-control" id="title" name="title" th:field="*{title}" placeholder="Название задачи" readonly>
+            </div>
+            <div class="mb-3">
                 <label for="description" class="form-label"><b>Описание</b></label>
                 <textarea class="form-control" id="description" name="description" th:field="*{description}" placeholder="Опишите задачу" readonly></textarea>
             </div>
