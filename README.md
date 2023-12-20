@@ -5,14 +5,14 @@ http://job4j.ru/
 Можно фильтровать выполненные и невыполненные задачи.
 
 ### Требования к окружению:
-Java 17;\ 
+Java 17;\
 PostgreSQL 14;\
 Apache Maven 3.8.4
 
 ### Стек технологий: 
 Spring boot 2.7.3;\
 Thymeleaf;\
-Bootstrap;\ 
+Bootstrap;\
 Hibernate 5.6.11.Final;\
 PostgreSql 42.2.9
 
