@@ -35,6 +35,7 @@
                         <p th:case ="true">Выполнено</p>
                         <p th:case ="false">В работе</p>
                     </td>
+                    <td th:text="${task.user.name}"/>
                 </tr>
                 </tbody>
             </table>

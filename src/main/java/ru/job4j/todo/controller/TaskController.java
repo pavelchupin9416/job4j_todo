@@ -41,8 +41,9 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model) {
+    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
         try {
+            task.setUser(user);
             taskService.save(task);
             return "redirect:/tasks";
         } catch (Exception exception) {
