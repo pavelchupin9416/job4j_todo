@@ -28,8 +28,9 @@ public class CrudRepository {
             );
         } catch (HibernateException e) {
             e.printStackTrace();
-            result = false;
+
         }
+        result = false;
         return result;
     }
 
