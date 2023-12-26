@@ -3,5 +3,6 @@ CREATE TABLE tasks (
    title  varchar not null,
    description TEXT,
    created TIMESTAMP,
-   done BOOLEAN
+   done BOOLEAN,
+   user_id     int     REFERENCES todo_user(id)    NOT NULL
 );
