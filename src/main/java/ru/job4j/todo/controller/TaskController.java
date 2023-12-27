@@ -2,10 +2,12 @@ package ru.job4j.todo.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.todo.model.*;
+import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
 import java.util.Collection;
@@ -15,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskController {
     private final TaskService taskService;
-
+    private final PriorityService priorityService;
 
     @GetMapping
     public String getAll(Model model) {
@@ -37,6 +39,7 @@ public class TaskController {
 
     @GetMapping("/create")
     public String getCreationPage(Model model) {
+        model.addAttribute("priorities", priorityService.findAll());
         return "tasks/create";
     }
 
@@ -59,6 +62,7 @@ public class TaskController {
             model.addAttribute("message", "Задача с указанным идентификатором не найдена");
             return "errors/404";
         }
+        model.addAttribute("priorities", priorityService.findAll());
         model.addAttribute("task", task.get());
         return "tasks/one";
     }
@@ -80,12 +84,14 @@ public class TaskController {
             model.addAttribute("message", "Задача с указанным идентификатором не найдена");
             return "errors/404";
         }
+        model.addAttribute("priorities", priorityService.findAll());
         model.addAttribute("task", task.get());
         return "tasks/update";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task, Model model) {
+    public String update(@ModelAttribute Task task, @SessionAttribute User user, Model model) {
+            task.setUser(user);
             var isUpdated = taskService.update(task);
             if (!isUpdated) {
                 model.addAttribute("message", "Задача с указанным идентификатором не найдена");

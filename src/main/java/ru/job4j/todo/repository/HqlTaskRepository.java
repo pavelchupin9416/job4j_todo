@@ -28,7 +28,7 @@ public class HqlTaskRepository implements TaskRepository {
 
     @Override
     public boolean update(Task task) {
-        return crudRepository.run(session -> session.merge(task));
+        return crudRepository.run(session -> session.update(task));
     }
 
     @Override
@@ -45,12 +45,12 @@ public class HqlTaskRepository implements TaskRepository {
 
     @Override
     public Collection<Task> findAll() {
-        return crudRepository.query("from Task", Task.class);
+        return crudRepository.query("from Task t JOIN FETCH t.priority", Task.class);
     }
 
     @Override
     public Collection<Task> findNewOrDone(boolean done) {
-        return crudRepository.query("from Task where done = :fDone", Task.class, Map.of("fDone", done));
+        return crudRepository.query("from Task t JOIN FETCH t.priority where done = :fDone", Task.class, Map.of("fDone", done));
     }
 
 
