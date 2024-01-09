@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.todo.model.*;
+import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
     private final PriorityService priorityService;
+    private final CategoryService categoryService;
 
     @GetMapping
     public String getAll(Model model) {
@@ -40,14 +42,16 @@ public class TaskController {
     @GetMapping("/create")
     public String getCreationPage(Model model) {
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "tasks/create";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
+    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user,
+                         @RequestParam(name = "categoriesId") List<Integer> categoriesId) {
         try {
             task.setUser(user);
-            taskService.save(task);
+            taskService.save(task,categoriesId);
             return "redirect:/tasks";
         } catch (Exception exception) {
             model.addAttribute("message", exception.getMessage());
@@ -63,6 +67,7 @@ public class TaskController {
             return "errors/404";
         }
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("task", task.get());
         return "tasks/one";
     }
@@ -84,15 +89,17 @@ public class TaskController {
             model.addAttribute("message", "Задача с указанным идентификатором не найдена");
             return "errors/404";
         }
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("priorities", priorityService.findAll());
         model.addAttribute("task", task.get());
         return "tasks/update";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task, @SessionAttribute User user, Model model) {
+    public String update(@ModelAttribute Task task, @SessionAttribute User user, Model model,
+                         @RequestParam(name = "categoriesId") List<Integer> categoriesId) {
             task.setUser(user);
-            var isUpdated = taskService.update(task);
+            var isUpdated = taskService.update(task, categoriesId);
             if (!isUpdated) {
                 model.addAttribute("message", "Задача с указанным идентификатором не найдена");
                 return "errors/404";
