@@ -15,7 +15,7 @@
 <div class="container-fluid p-0">
     <header th:insert="blocks/header :: header"></header>
     <div class="container">
-        <form class="mt-3" th:action="@{/tasks/setdone}" method="post" th:object="${task}" enctype="multipart/form-data">
+        <form class="mt-3" th:action="@{/tasks/setdone}" method="post" th:object="${task}">
             <input type="hidden" name="id" th:field="*{id}">
             <div class="mb-3">
                 <label for="title" class="form-label"><b>Название</b></label>
@@ -40,9 +40,9 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="categoriesId"><b>Категории: </b></label>
-                <select class="form-select" multiple="multiple" size="5" id="categoriesId" name="categoriesId" required>
-                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:field="*{category.id}" th:selected="*{categoriesId}"></option>
+                <label for="category"><b>Категория</b></label>
+                <select class="form-control" id="category" name="categoriesId" multiple required>
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${task.categories.contains(category)}"></option>
                 </select>
             </div>
 

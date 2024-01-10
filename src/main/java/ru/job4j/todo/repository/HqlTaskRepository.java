@@ -40,7 +40,7 @@ public class HqlTaskRepository implements TaskRepository {
 
     @Override
     public Optional<Task> findById(int id) {
-        return crudRepository.optional("from Task WHERE id = :fId", Task.class, Map.of("fId", id));
+        return crudRepository.optional("from Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId", Task.class, Map.of("fId", id));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class HqlTaskRepository implements TaskRepository {
 
     @Override
     public Collection<Task> findNewOrDone(boolean done) {
-        return crudRepository.query("from Task t JOIN FETCH t.priority where done = :fDone", Task.class, Map.of("fDone", done));
+        return crudRepository.query("from Task t JOIN FETCH t.priority JOIN FETCH t.categories where done = :fDone", Task.class, Map.of("fDone", done));
     }
 
 

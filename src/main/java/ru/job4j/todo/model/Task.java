@@ -33,7 +33,7 @@ public class Task {
     @JoinColumn(name = "priority_id")
     private Priority priority;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "task_categories",
             joinColumns = { @JoinColumn(name = "tasks_id") },
