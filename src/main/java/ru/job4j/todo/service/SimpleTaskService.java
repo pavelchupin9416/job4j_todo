@@ -18,7 +18,7 @@ public class SimpleTaskService implements TaskService {
 
     private final CategoryService categoryService;
 
-    public Task setCategory(Task task, List<Integer> categoryId){
+    public Task setCategory(Task task, List<Integer> categoryId) {
         List<Category> cat = new ArrayList<>();
         for (Integer id : categoryId) {
 

@@ -51,7 +51,7 @@ public class TaskController {
                          @RequestParam(name = "categoriesId") List<Integer> categoriesId) {
         try {
             task.setUser(user);
-            taskService.save(task,categoriesId);
+            taskService.save(task, categoriesId);
             return "redirect:/tasks";
         } catch (Exception exception) {
             model.addAttribute("message", exception.getMessage());
