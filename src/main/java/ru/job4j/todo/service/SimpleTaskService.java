@@ -2,10 +2,13 @@ package ru.job4j.todo.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.repository.TaskRepository;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,10 +16,21 @@ import java.util.Optional;
 public class SimpleTaskService implements TaskService {
     private final TaskRepository taskRepository;
 
+    private final CategoryService categoryService;
+
+    public Task setCategory(Task task, List<Integer> categoryId){
+        List<Category> cat = new ArrayList<>();
+        for (Integer id : categoryId) {
+
+            cat.add(categoryService.findById(id).get());
+        }
+        task.setCategories(cat);
+        return task;
+    }
 
     @Override
-    public Task save(Task task) {
-        return taskRepository.save(task);
+    public Task save(Task task, List<Integer> categories) {
+        return taskRepository.save(setCategory(task, categories));
     }
 
     @Override
@@ -25,8 +39,8 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public boolean update(Task task) {
-        return taskRepository.update(task);
+    public boolean update(Task task, List<Integer> categories) {
+        return taskRepository.update(setCategory(task, categories));
     }
 
     @Override

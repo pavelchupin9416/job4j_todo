@@ -37,6 +37,12 @@
                     <option th:each="priority: ${priorities}" th:text="${priority.name}" th:value="${priority.id}" th:field="*{priority.id}" th:selected="*{priority.id}"></option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="category"><b>Категория</b></label>
+                <select class="form-control" id="category" name="categoriesId" multiple required>
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${task.categories.contains(category)}"></option>
+                </select>
+            </div>
             <div class="mb-3 row">
                 <div class="col-6"></div>
                 <div class="col-6">
