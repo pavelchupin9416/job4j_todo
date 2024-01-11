@@ -8,21 +8,23 @@ import ru.job4j.todo.repository.TaskRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class SimpleTaskService implements TaskService {
     private final TaskRepository taskRepository;
 
-    private final CategoryService categoryService;
 
     public Task setCategory(Task task, List<Integer> categoryId) {
-        List<Category> cat = new ArrayList<>();
+        Set<Category> cat = new HashSet<>();
         for (Integer id : categoryId) {
-
-            cat.add(categoryService.findById(id).get());
+            Category category = new Category();
+            category.setId(id);
+            cat.add(category);
         }
         task.setCategories(cat);
         return task;

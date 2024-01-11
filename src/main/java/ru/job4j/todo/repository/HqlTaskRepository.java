@@ -50,7 +50,7 @@ public class HqlTaskRepository implements TaskRepository {
 
     @Override
     public Collection<Task> findNewOrDone(boolean done) {
-        return crudRepository.query("from Task t JOIN FETCH t.priority JOIN FETCH t.categories where done = :fDone", Task.class, Map.of("fDone", done));
+        return crudRepository.query("from Task t JOIN FETCH t.priority where done = :fDone", Task.class, Map.of("fDone", done));
     }
 
 

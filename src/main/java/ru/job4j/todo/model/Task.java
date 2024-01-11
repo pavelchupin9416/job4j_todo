@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -39,5 +41,5 @@ public class Task {
             joinColumns = { @JoinColumn(name = "tasks_id") },
             inverseJoinColumns = { @JoinColumn(name = "categories_id") }
     )
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 }
