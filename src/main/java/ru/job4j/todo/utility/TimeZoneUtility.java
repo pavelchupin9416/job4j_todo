@@ -28,7 +28,7 @@ public class TimeZoneUtility {
     }
 
     public static Collection<Task> changeTimeZone(Collection<Task> tasks, User user) {
-       for(Task task : tasks){
+       for (Task task : tasks) {
            task.setCreated(task.getCreated()
                    .atZone(ZoneId.of("UTC"))
                    .withZoneSameInstant(ZoneId.of(user.getTimezone())).toLocalDateTime());
