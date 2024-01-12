@@ -22,20 +22,20 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+    public String getAll(Model model,  @SessionAttribute User user) {
+        model.addAttribute("tasks", taskService.findAll(user));
         return "tasks/list";
     }
 
     @GetMapping("/new")
-    public String getNew(Model model) {
-        model.addAttribute("tasks", taskService.findNewOrDone(false));
+    public String getNew(Model model,  @SessionAttribute User user) {
+        model.addAttribute("tasks", taskService.findNewOrDone(false, user));
         return "tasks/list";
     }
 
     @GetMapping("/done")
-    public String getOld(Model model) {
-        model.addAttribute("tasks", taskService.findNewOrDone(true));
+    public String getOld(Model model,  @SessionAttribute User user) {
+        model.addAttribute("tasks", taskService.findNewOrDone(true, user));
         return "tasks/list";
     }
 

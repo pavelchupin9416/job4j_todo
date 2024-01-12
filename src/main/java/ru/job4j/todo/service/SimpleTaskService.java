@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.repository.TaskRepository;
+import ru.job4j.todo.utility.TimeZoneUtility;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,12 +58,16 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public Collection<Task> findAll() {
-        return taskRepository.findAll();
+    public Collection<Task> findAll(User user) {
+        Collection<Task> tasks = taskRepository.findAll();
+        TimeZoneUtility.changeTimeZone(tasks, user);
+        return tasks;
     }
 
     @Override
-    public Collection<Task> findNewOrDone(boolean done) {
-        return taskRepository.findNewOrDone(done);
+    public Collection<Task> findNewOrDone(boolean done, User user) {
+        Collection<Task> tasks = taskRepository.findNewOrDone(done);
+        TimeZoneUtility.changeTimeZone(tasks, user);
+        return tasks;
     }
 }
