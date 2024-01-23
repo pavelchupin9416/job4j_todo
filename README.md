@@ -24,6 +24,10 @@ PostgreSql 42.2.9
 5. Запустить приложение;
 6. Открыть в браузере страницу http://localhost:8080/index;
 
+Вход и регистрация:
+![](images/login.png)
+![](images/reg.png)
+
 Главная страница и список всех задач:
 ![](images/index.png)
 ![](images/task.png)
@@ -34,6 +38,5 @@ PostgreSql 42.2.9
 
 Создание задачи и редактирование:
 ![](images/create.png)
-![](images/task2.png)
 ![](images/create_task.png)
 ![](images/update_task.png)
